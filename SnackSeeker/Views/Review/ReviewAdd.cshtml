@@ -1,0 +1,32 @@
+﻿@using System.Security.Claims;
+@{
+    ViewData["Title"] = "ReviewAdd";
+}
+
+@model RestaurantRoot
+
+<h1>Enter Your Review of @Model.name!</h1>
+<form action="../Review/ReviewAdd" method="post">
+    <input type="hidden" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" />
+    <input type="hidden" name="RestaurantId" value="@Model.id" />
+    @for (int i = 0, x = 1; i < Model.categories.Count; i++, x++)
+    {
+
+        <input type="hidden" name=@($"Type{x}Name") value="@Model.categories[i].title" />
+
+    }
+    <label>Price Review</label>
+    <input type="number" name="ReviewOfPrice" value="" min="1" max="4" /> <br />
+    @for (int i = 0, x = 1; i < Model.categories.Count; i++, x++)
+    {
+        <label>Review Of @Model.categories[i].title</label>
+        <input type="number" name=@($"ReviewOfType{x}") value="" min="1" max="5" /><br />
+    }
+
+    <label>Review of @Model.name</label>
+    <input type="number" name="ReviewOfRating" value="" min="1" max="5" /><br />
+    <input type="hidden" name="RestaurantName" value="@Model.name" />
+    <input type="submit" value="Submit!" />
+
+</form>
+  

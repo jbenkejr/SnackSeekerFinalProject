@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "ListCategory";
+}
+@model BusinessRoot
+
+<h1>Here Are Your Recommended Restaurants!</h1>
+<table class="table table-bordered">
+    @foreach (var business in Model.businesses)
+    {
+    <tr>
+        <td><a href="@business.url">@business.name</a></td>
+        <td>
+            <form action="../Google/DisplayInfo" method="post">
+                <input type="hidden" name="name" value="@business.name" />
+                <input type="hidden" name="location" value="@business.location.city" />
+                <input type="submit" value="See Map!" />
+            </form>
+        </td>
+        <td>
+            <form action="../Review/ReviewCheck" method="post">
+                <input type="hidden" name="BusinessId" value="@business.id" />
+                <input type="submit" value="Submit Review!" />
+            </form>
+        </td>
+        <td>
+            <form action="../Favorites/AddToFavorites" method="post">
+                <input type="hidden" name="Id" value="@business.id" />
+                <input type="hidden" name="name" value="@business.name" />
+                <input type="hidden" name="price" value="@business.price" />
+                <input type="submit" value="Add to Favorites!" />
+            </form>
+        </td>
+        <td>@business.price</td>
+        <td>@business.rating</td>
+    </tr>
+   }
+</table>

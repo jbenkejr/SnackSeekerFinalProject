@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "ListReviews";
+}
+
+@model List<Review>
+
+<h1>ListReviews</h1>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Restaurant Name</th>
+        <th>Price</th>
+        <th>Type Name</th>
+        <th>Type Rating</th>
+        <th>Type Name</th>
+        <th>Type Rating</th>
+        <th>Type Name</th>
+        <th>Type Rating</th>
+        <th>Restaurant Rating</th>
+    </tr>
+    @foreach (var review in Model)
+    {
+<tr>
+    <td>@review.RestaurantName</td>
+    <td align="center">@review.ReviewOfPrice</td>
+    <td>@review.Type1Name</td>
+    <td align="center">@review.ReviewOfType1</td>
+    <td>@review.Type2Name</td>
+    <td align="center">@review.ReviewOfType2</td>
+    <td>@review.Type3Name</td>
+    <td align="center">@review.ReviewOfType3</td>
+    <td align="center">@review.ReviewOfRating</td>
+    <td>
+        <form action="../Review/ReviewCheck" method="post">
+            <input type="hidden" name="BusinessId" value="@review.RestaurantId" />
+            <input type="submit" value="Update Review" />
+
+        </form>
+    </td>
+    <td>
+        <form action="../Favorites/AddToFavorites" method="post">
+            <input type="hidden" name="Id" value="@review.RestaurantId" />
+            <input type="hidden" name="name" value="@review.RestaurantName" />
+            <input type="hidden" name="price" value="@review.ReviewOfPrice" />
+            <input type="submit" value="Add to Favorites!" />
+        </form>
+    </td>
+</tr>
+    }
+</table>
+

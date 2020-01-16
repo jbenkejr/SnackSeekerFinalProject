@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "DisplayInfo";
+}
+@model string
+
+<h1>Location Display!</h1>
+
+
+@if (Model != null)
+{
+
+    <iframe width="550"
+            height="350"
+            frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/search?key=@ViewData["hidden"]&q=@Model" allowfullscreen>
+    </iframe>
+
+    <p>Welcome to @Model</p>
+
+
+    <h3>Want Something Different?</h3>
+    <form action="../Snack/SearchCategory" method="get">
+        <input type="submit" value="Let's Go!" />
+    </form>
+}
+
+
+
+
+

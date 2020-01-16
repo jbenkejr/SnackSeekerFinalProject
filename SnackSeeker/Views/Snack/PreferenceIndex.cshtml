@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewData["Title"] = "PreferenceIndex";
+}
+
+@model List<Preferences>
+
+<h1>Preference List</h1>
+
+<h3>Add Your User Preferences!</h3>
+@if (Model.Count < 3)
+{
+    <p style="color:red">Please add at least 3 Preferences!</p>
+}
+@{
+    List<string> ranCat = new List<string>();
+}
+
+@foreach (var pref in Model)
+{
+    ranCat.Add(pref.Name);
+}
+
+@if (Model.Count == 0)
+{
+<form action="../Snack/PreferenceIndex" method="post">
+    <class name="category">
+        @foreach (var category in Categories.Category)
+        {
+            if (!ranCat.Contains(category))
+            {
+                ranCat.Add(category);
+            }
+        }
+    </class>
+    <label>Choose 3 Random Preferences for me!</label>
+    <input type="checkbox" name="random" value="Random" />
+    <input type="submit" value="Submit" />
+</form>
+}
+
+@if (Model != null)
+{
+<table class="table table-bordered bg-white">
+    <thead class="thead-light">
+        <tr>
+            <th>User Preference</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    @{ int count = 0;}
+    @foreach (var pref in Model)
+    {
+        if (count % 2 == 0)
+        {
+            <tr>
+                <td>@pref.Name</td>
+                <td>@pref.Rating</td>
+            </tr>
+        }
+        else
+        {
+            <tr class="table-active">
+                <td>@pref.Name</td>
+                <td>@pref.Rating</td>
+            </tr>
+        }
+        count++;
+    }
+
+    </table>
+}
+@{
+    List<string> userCats = new List<string>();
+}
+@foreach (var pref in Model)
+{
+    userCats.Add(pref.Name);
+}
+
+<form class="form-inline" action="../Snack/PreferenceAdd">
+    <div class="col-md-4"></div>
+    <div class="card col-md-4" align="center">
+            <h3>Add Preference</h3>
+            <div class="input-group">
+                <select class="form-control input-group" name="category">
+                    @foreach (var category in Categories.Category)
+                    {
+                        if (!userCats.Contains(category))
+                        {
+                            <option value="@category">
+                                @category
+                            </option>
+                        }
+                    }
+                </select>
+                <input class="form-control input-group" type="number" name="Rating" min="1" max="5"/>
+            </div>
+        
+        <div align="center">
+            <input class="form-control" type="submit" value="Submit"/>
+        </div>
+    </div>
+</form>
+<br />
+<form class="form-inline" action="../Snack/PreferenceChange" method="post">
+    <div class="col-md-4"></div>
+    <div class="card col-md-4" align="center">
+        <h3>Update Preference</h3>
+        <div class="input-group">
+            <label class="form-check-label">Update  
+                <input class="form-control col-xs-1" type="radio" name="change" value="Update" id="update" checked/>
+            </label>
+            <label class="form-check-label">Delete  
+                <input class="form-control col-xs-1" type="radio" name="change" value="Delete" id="delete"/>
+            </label>
+        </div>
+        <div class="input-group">
+            <select class="form-control input-group" name="id">
+                @foreach (var prefs in Model)
+                {
+                    <option value="@prefs.PreferenceId">@prefs.Name</option>
+                }
+            </select>
+            <input class="form-control input-group" type="number" name="rating" min="1" max="5" />
+        </div>
+        <input class="form-control" type="submit" value="Change"/>
+    </div>
+</form>
+<br />
+@if (ViewBag != null)
+{
+<div class="card" align="center">
+    <p>@Math.Round(ViewBag.Average)  User Price Preference</p>
+    @if (ViewBag != null)
+    {
+        <p>@ViewBag.highcategory</p>
+    }
+</div>
+}
